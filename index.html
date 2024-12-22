@@ -10,11 +10,43 @@
 <script>
     // Encrypted URLs for each card
     const cardUrls = {
-        1: "U2FsdGVkX1+aF/4HanQ5H9c8NkWSIxH3hdbD2CqiychlzJP58gPI0z7vKJmgWWM8",
-        2: "U2FsdGVkX19zqIVkB/vC1+E1GHofWqnX+WgU1K+SaHw8hWgBeojSga7n++737589KyI7sy6cKzOGoRobKbE4b4a6bkRyY6LIEhB/vTG9GJvxCMJTanT7aKnYdGMOZAmv5ldaevs4La7Uv4foLEep1sL1k7MKrsEI8CdgN5jD9rI=",
-        3: "REPLACE_WITH_ENCRYPTED_STRING_FOR_CARD_3"
-        // Add more cards here
+        // Card_1_Radio_Comms_Light_Green
+        1: "U2FsdGVkX1/GJjFALMDS9Jmr1iqlltgMQkAI7w6kB5IYkhFReUtcU0E0Zyuxi2V0iUaL59WmzmpkkeKBICJDBF+H+jqEeb6r+KJ6i3WRPBJghHw8NN7furBdlIjRNKSsmFIs9876dF2shWrio0qQEuZR1o20sG4wju/2Xc+4m3c=",
+
+        // Card_2_Core_Standards_Dark_Blue
+        2: "U2FsdGVkX188ETCFesh0ZKY/ZCoXZeyv9N9GaqJvx8NlhsCjCmoAfdB8T8hUeWjGNkZPizF7y8z1vSI5XZSoKRhJaPBMW1wVNj5Bami2LxFOVXaEiWtAFO36Q5Vg+IbrKDKxaS40eNMrJvyjOYd3vXDoSKKAHYnH0pZ0zZJNM8U=",
+
+        // Card_3_Ranks_White
+        3: "U2FsdGVkX18GMBB5rE69onC2f99f88RF67ewo1FoAEaLRyXkmS2Sa5ZAHQp4B6sy3swD4oiw6AEpw2JE0tSnIXFnIHut16/FWEZAoL0kHmvb261KMxRFbI21a6rtth/NHz2as2j+pzsybP0NipiiO7G8Zy52tq2BwzTdg9UsEd8=",
+
+        // Card_4_Guardian_Protocols_Yellow
+        4: "U2FsdGVkX1+gMnrdqwNUWe0ShDkjfqJyafOD5p0av/dRYeBvtP8BpgCnDeAewGLzAFA7ZcNSG7f6gBC5K+YShwpnMB5LvPD/K62fOsaigXvCrr+KqnbKJoXQvBleyMKsmFjnonlIkhXckBBDuNOjW6hd2b6TnkpljJmQBTXcTiw=",
+
+        // Card_5_Shelter_Tasks_Dark_Green
+        5: "U2FsdGVkX1/88ulfKvLqBXlE8I83vzToRjV75DA2X0HioYG3z5HvyfWqP7lbN+Mgm1HixmJBPU24Eu0ia3x/FF7wOMNvNqDPhNQhVG5BJqjOeQUes2NbDrE8DMF/9e/MG7MI/eu6rayBf1JLGZENdJ5ypfYw/oPLZztTberq1Fs=",
+
+        // Card_6_Medical_Red
+        6: "U2FsdGVkX1+X9FH2eUeCbVm/vr//JaCA6QpNS/ysCHvvGsxPVEQymnrERvCm9IwhesfFcNKVMjh7cJMnEX20maw3CiKsFQ5vEUsxJ4XiWUCZBAKpnIi1XBcbvvd5BnD/Jne9Oi1U1g6JAfUrMbKgZyQd0kjaTUJrhQWQbRDvNEc=",
+
+        // Card_7_PODs_Orange
+        7: "U2FsdGVkX1/wJTxJsDFAdEX67IwBiTcB02x25a6bq9OivUNjCuXxSyb8teHOwaGuF+DZ0CtYbSGyIHCXpoLAVjOzP86rYKoELeiWROkL8D6mb0/tTCUWl4vy1ua0xvIptdqOYLIFlLoQXeIifKw4cpiyZvaA5+oy3hiSgZ6AJE4=",
+
+        // Card_8_Silent_Comms_Light_Purple
+        8: "U2FsdGVkX18CfNdwe2wWHxt6snZmrU1yp4jJbtUUco06tWg+6GXFy/xbss+WqRCUdvzB+KWJQb78P5ARkdJR33/+nyp4/t9xRfdZ62BssDH9Bvh7/QPNa1iXSNRJdC7uTFFY19Uzf3Q+L9f3gijehMEaWqu2Wxd8tTE1Ya57UiA=",
+
+        // Card_9_Acronyms_Light_Blue
+        9: "U2FsdGVkX1/BpecGmrPVVlUGVsuB3/j/r5eDKEXgCT36gyyhTmmaxUGzVk+5/LPQo3bXE0I4zYKLRABNKFQBoO0TOInX9HCGQJWzErfHTOA0S8DmQNXgd9XHoHkqmKMtmkMImtWVfcopvVfTIYamjxqG/vuZa5g4ZgjmhTLdDw0=",
+
+        // Card_10_Survival_OD_Green
+        10: "U2FsdGVkX1+Kz9Af3jV+TaWzGvBvRNw5rYapktsl3Ct2xVR8RoTbSsEpcQPkmM5QV80NZ+dSjuKBJ53pbatU8kkmE4vQs2Mwfh9bcjDcDq1DZ9yx//kp2is5k3RXk8akM/8F0eITofJd2kl4WpLth83qAqNHAJwrnOdQvCAdDbY=",
+
+        // Card_11_Winter_Emergency_Silver
+        11: "U2FsdGVkX183gl/NDRt39LXgSzDTHMfEVA+yepq+MPh6j6kTARIjc5owZc7xqsE219RsCf5zEgXl0uM5AuXmA38UmP79QUzqrB+Ajtu5CgcFCYnb/EoJZDz5FZ59j6t571SCom30HE9KIra65OW+82SSCaFw9xUEEpZkfFxSayk=",
+
+        // Card_12_Land_Navigation_Glow
+        12: "U2FsdGVkX19RycVaVCaodDgGRGRGM2Rnq89/mCMLOV2hFZRuNDciHxVNQJfGCc/vsUHTTyF6AgmTEjBcijHzexFpmKuudkUcdxfzI1Yha2n8Ih2WrSxB1iBHrfBCXjLwCZnGm2si89AGZh5HTXFnpXFIOumWEjtdgIMdnMu6z9M="
     };
+
 
     // Function to get query parameters
     function getQueryParam(param) {
