@@ -94,7 +94,7 @@
         const decryptedUrl = decryptUrl(encryptedUrl, key);
         if (decryptedUrl) {
             console.log("Decrypted URL:", decryptedUrl);
-            alert("Decrypted URL: " + decryptedUrl);
+            alert("Tap OK to proceed to decrypted URL: " + decryptedUrl);
             document.body.innerHTML = `<h1>Redirecting</h1><p>Redirecting to: ${decryptedUrl}</p>`;
             setTimeout(() => {
                 window.location.href = decryptedUrl;
