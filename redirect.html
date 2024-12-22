@@ -3,39 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radio Comms Redirect</title>
+    <title>Secure Redirect</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 <script>
-    // The encrypted URL (Base64 encoded)
-    const encryptedUrl = "sw0+ak8vvrVvDoD7QRm0lidrb9P1k2vLoDpGdBOFCQKAL2EPQGzBnRAmwuVV3eGeduvy0Sser6Q69GtxOZ3DgFMM86ONmcuaX4ox3J2oFzAkTkMkt05i6PP4GPEETuLyeO/1htOCWRnBfufkn8ZojxtzwBpVEtMS9sdW2+c7T7kRKTI4qNmX+V7ePZ6f8VecKkyLIikVDHeTx4yYXonUhZ+52AEgbKjpt4WFcAxEK+r3+nRDVo/ZMiqVW25lmzAAe7GYO91B+KcmTkyUxPiom6Rkmsof8oLqTlt7J5ajzY50dLpW1ber6E+HwJSJBlz+qIB0vqEn5123yrYJQAmEbg==";
+    // Encrypted URLs for each card
+    const cardUrls = {
+        1: "U2FsdGVkX1+aF/4HanQ5H9c8NkWSIxH3hdbD2CqiychlzJP58gPI0z7vKJmgWWM8",
+        2: "U2FsdGVkX19zqIVkB/vC1+E1GHofWqnX+WgU1K+SaHw8hWgBeojSga7n++737589KyI7sy6cKzOGoRobKbE4b4a6bkRyY6LIEhB/vTG9GJvxCMJTanT7aKnYdGMOZAmv5ldaevs4La7Uv4foLEep1sL1k7MKrsEI8CdgN5jD9rI=",
+        3: "REPLACE_WITH_ENCRYPTED_STRING_FOR_CARD_3"
+        // Add more cards here
+    };
 
-    // Function to get query parameters from the URL
+    // Function to get query parameters
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
-    // Get the decryption key from the query parameter
-    const decryptionKey = getQueryParam('k');
-
-    if (decryptionKey) {
+    // Decrypt function
+    function decryptUrl(encrypted, key) {
         try {
-            // Decode and decrypt the URL
-            const forge = window.forge;
-            const decodedEncryptedUrl = forge.util.decode64(encryptedUrl);
-            const privateKey = forge.pki.privateKeyFromPem(decryptionKey);
-            const decryptedUrl = privateKey.decrypt(decodedEncryptedUrl, 'RSA-OAEP');
-
-            // Redirect to the decrypted URL
-            window.location.href = decryptedUrl;
+            const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7,
+            });
+            return decrypted.toString(CryptoJS.enc.Utf8);
         } catch (error) {
             console.error("Decryption failed:", error);
-            document.body.innerHTML = "<h1>Access Denied</h1><p>Invalid or missing decryption key.</p>";
+            return null;
         }
-    } else {
-        document.body.innerHTML = "<h1>Access Denied</h1><p>No decryption key provided.</p>";
     }
+
+    (function () {
+        const card = getQueryParam("card");
+        const key = getQueryParam("key");
+
+        if (!card || !key) {
+            document.body.innerHTML = "<h1>Error</h1><p>Missing card or key parameter.</p>";
+            return;
+        }
+
+        console.log("Debug: Card ID:", card);
+        console.log("Debug: User-Provided Key:", key);
+
+        const encryptedUrl = cardUrls[card];
+        if (!encryptedUrl) {
+            document.body.innerHTML = "<h1>Error</h1><p>Invalid card ID.</p>";
+            return;
+        }
+
+        console.log("Debug: Encrypted URL for Card:", encryptedUrl);
+
+        const decryptedUrl = decryptUrl(encryptedUrl, key);
+        if (decryptedUrl) {
+            console.log("Decrypted URL:", decryptedUrl);
+            alert("Decrypted URL: " + decryptedUrl);
+            document.body.innerHTML = `<h1>Redirecting</h1><p>Redirecting to: ${decryptedUrl}</p>`;
+            setTimeout(() => {
+                window.location.href = decryptedUrl;
+            }, 2000);
+        } else {
+            alert("Decryption failed. Please check the key.");
+            document.body.innerHTML = "<h1>Access Denied</h1><p>Invalid or incorrect key.</p>";
+        }
+    })();
 </script>
 </body>
 </html>
