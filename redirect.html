@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Comms Redirect</title>
+</head>
+<body>
+<script>
+    // The encrypted URL (Base64 encoded)
+    const encryptedUrl = "sw0+ak8vvrVvDoD7QRm0lidrb9P1k2vLoDpGdBOFCQKAL2EPQGzBnRAmwuVV3eGeduvy0Sser6Q69GtxOZ3DgFMM86ONmcuaX4ox3J2oFzAkTkMkt05i6PP4GPEETuLyeO/1htOCWRnBfufkn8ZojxtzwBpVEtMS9sdW2+c7T7kRKTI4qNmX+V7ePZ6f8VecKkyLIikVDHeTx4yYXonUhZ+52AEgbKjpt4WFcAxEK+r3+nRDVo/ZMiqVW25lmzAAe7GYO91B+KcmTkyUxPiom6Rkmsof8oLqTlt7J5ajzY50dLpW1ber6E+HwJSJBlz+qIB0vqEn5123yrYJQAmEbg==";
+
+    // Function to get query parameters from the URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Get the decryption key from the query parameter
+    const decryptionKey = getQueryParam('k');
+
+    if (decryptionKey) {
+        try {
+            // Decode and decrypt the URL
+            const forge = window.forge;
+            const decodedEncryptedUrl = forge.util.decode64(encryptedUrl);
+            const privateKey = forge.pki.privateKeyFromPem(decryptionKey);
+            const decryptedUrl = privateKey.decrypt(decodedEncryptedUrl, 'RSA-OAEP');
+
+            // Redirect to the decrypted URL
+            window.location.href = decryptedUrl;
+        } catch (error) {
+            console.error("Decryption failed:", error);
+            document.body.innerHTML = "<h1>Access Denied</h1><p>Invalid or missing decryption key.</p>";
+        }
+    } else {
+        document.body.innerHTML = "<h1>Access Denied</h1><p>No decryption key provided.</p>";
+    }
+</script>
+</body>
+</html>
